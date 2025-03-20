@@ -1,0 +1,1 @@
+docker build -t cartesio_collision_avoidance  .

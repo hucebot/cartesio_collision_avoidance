@@ -1,0 +1,9 @@
+##### Python Files #####
+*.pyc
+
+##### VSCode Files #####
+.vscode/
+
+##### Debug Files #####
+*.stl
+*.bag
