@@ -1,0 +1,4 @@
+<launch>
+    <node name="pointcloud_to_mesh" pkg="cartesio_collision_avoidance" type="pointcloud_to_mesh.py" output="screen">
+    </node>
+</launch>

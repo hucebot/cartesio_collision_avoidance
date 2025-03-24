@@ -4,9 +4,9 @@
         <param name="scale_x" type="double" value="1.0"/>
         <param name="scale_y" type="double" value="1.0"/>
         <param name="scale_z" type="double" value="1.0"/>
-        <param name="frame_id" value="tiago_right_camera_color_optical_frame"/>
+        <param name="frame_id" value="tiago_head_camera_color_optical_frame"/>
         <param name="name_id" value="obstacle"/>
-        <param name="show_control_axis" type="bool" value="true"/>
+        <param name="show_control_axis" type="bool" value="false"/>
         <remap from="mesh_viz_floor/floor" to="planner/collision_objects"/>
     </node>
 </launch>

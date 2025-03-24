@@ -13,8 +13,7 @@ class PointCloudToMesh:
     def __init__(self):
         rospy.init_node("pointcloud_outlier_removal", anonymous=True)
 
-        self.obstacle_subscriber = rospy.Subscriber("/table_pc", PointCloud2, self.point_cloud_subscriber)
-        self.processed_publisher = rospy.Publisher("/table_pc_processed", PointCloud2, queue_size=1)
+        self.obstacle_subscriber = rospy.Subscriber("/vlm_seg/point_cloud", PointCloud2, self.point_cloud_subscriber)
 
         self.save_mesh_path = "/ros_ws/src/cartesio_collision_avoidance/meshes/obstacle.stl"
 
@@ -27,7 +26,7 @@ class PointCloudToMesh:
  
         self.ransac_distance_threshold = 0.01
         self.ransac_n = 10
-        self.num_iterations = 1000 
+        self.num_iterations = 10 
 
     def obstacle_to_mesh(self, pcd):
         tetra_mesh, pt_map = o3d.geometry.TetraMesh.create_from_point_cloud(pcd)
@@ -86,8 +85,12 @@ class PointCloudToMesh:
         o3d.io.write_triangle_mesh(self.save_mesh_path, mesh)
         rospy.loginfo(f"Mesh saved at {self.save_mesh_path}")
 
+    def reduce_density(self, pcd):
+        pcd = pcd.voxel_down_sample(voxel_size=0.05)
+        return pcd
+
     def point_cloud_subscriber(self, msg):
-        print(msg.header)
+        rospy.loginfo("Received point cloud.")
         raw_data = list(point_cloud2.read_points(msg, field_names=("x", "y", "z"), skip_nans=True))
         if not raw_data:
             rospy.logwarn("No points in the point cloud.")
@@ -97,6 +100,7 @@ class PointCloudToMesh:
         if obstacle is None:
             return
 
+        obstacle = self.reduce_density(obstacle)
         _, mesh = self.plane_to_mesh(obstacle)
         self.save_mesh(mesh)
 

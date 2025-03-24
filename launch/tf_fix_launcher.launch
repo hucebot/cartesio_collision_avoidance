@@ -1,0 +1,5 @@
+<launch>
+    <!-- Should be the correct values, now it's an aproximation -->
+    <node pkg="tf" type="static_transform_publisher" name="camera_to_robot" args="0 0 0 -1.57079632679 0.0 -0.785398 ci/camera_head_frame tiago_head_camera_color_optical_frame 10" />
+
+</launch>
