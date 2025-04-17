@@ -15,7 +15,7 @@ o3d.utility.set_verbosity_level(o3d.utility.VerbosityLevel.Error)
 class PointCloudToMesh:
     def __init__(self):
         rospy.init_node("pointcloud_outlier_removal")
-        self.read_mesh = rospy.get_param("~read_mesh", True)
+        self.read_mesh = rospy.get_param("~read_mesh", False)
         self.obstacle_subscriber = rospy.Subscriber("/vlm_seg/point_cloud", PointCloud2, self.point_cloud_subscriber)
         self.save_mesh_path = "/ros_ws/src/cartesio_collision_avoidance/meshes/obstacle.stl"
         if not os.path.exists(os.path.dirname(self.save_mesh_path)):
